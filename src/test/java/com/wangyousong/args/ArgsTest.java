@@ -20,7 +20,7 @@ class ArgsTest {
     }
 
     @Test
-    void should_throw_illegal_option_exception_if_annotation_not_present() {
+    void should_raise_exception_if_annotation_not_present() {
         IllegalOptionException e = assertThrows(IllegalOptionException.class,
                 () -> Args.parse(OptionsWithoutAnnotation.class, "-l", "-p", "8080", "-d", "/usr/logs"));
 
