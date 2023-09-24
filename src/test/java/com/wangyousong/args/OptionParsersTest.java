@@ -11,7 +11,6 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.wangyousong.args.OptionParsersTest.BooleanOptionParser.option;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,20 +83,19 @@ class OptionParsersTest {
         void should_set_boolean_option_to_true_if_flag_present() {
             assertTrue(OptionParsers.bool().parse(List.of("-l"), option("l")));
         }
+    }
 
+    static Option option(String value) {
+        return new Option() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return Option.class;
+            }
 
-        static Option option(String value) {
-            return new Option() {
-                @Override
-                public Class<? extends Annotation> annotationType() {
-                    return Option.class;
-                }
-
-                @Override
-                public String value() {
-                    return value;
-                }
-            };
-        }
+            @Override
+            public String value() {
+                return value;
+            }
+        };
     }
 }
