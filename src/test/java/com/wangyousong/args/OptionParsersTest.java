@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.function.Function;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class OptionParsersTest {
 
@@ -52,11 +56,11 @@ class OptionParsersTest {
         // happy path
         @Test
         void should_parse_value_if_flag_present() {
-            Object parsed = new Object();
-            Function<String, Object> parse = (it) -> parsed;
-            Object whatever = new Object();
+            Function<String,Object> parser = mock(Function.class);
 
-            assertSame(parsed, OptionParsers.unary(whatever, parse).parse(List.of("-p", "8080"), option("p")));
+            OptionParsers.unary(any(), parser).parse(List.of("-p", "8080"), option("p"));
+
+            verify(parser).apply("8080");
         }
     }
 
