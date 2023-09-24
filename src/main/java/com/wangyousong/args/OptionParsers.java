@@ -42,13 +42,11 @@ class OptionParsers {
     }
 
     private static <T> T parseValue(Option option, String value, Function<String, T> valueParser) {
-        T result;
         try {
-            result = valueParser.apply(value);
+            return valueParser.apply(value);
         } catch (Exception e) {
             throw new IllegalValueException(option.value(), value);
         }
-        return result;
     }
 
     private static List<String> values(List<String> arguments, int index) {
