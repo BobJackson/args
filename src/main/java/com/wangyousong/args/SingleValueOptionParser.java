@@ -20,12 +20,19 @@ class SingleValueOptionParser<T> implements OptionParser<T> {
 
     @Override
     public T parse(List<String> arguments, Option option) {
+        return values(arguments, option, 1).map(it -> parseValue(it.get(0))).orElse(defaultValue);
+    }
+
+    static Optional<List<String>> values(List<String> arguments, Option option, int expectedSize) {
         int index = arguments.indexOf("-" + option.value());
-        if (index == -1) return defaultValue;
+        if (index == -1) return Optional.empty();
         List<String> values = values(arguments, index);
-        if (values.size() < 1) throw new InsufficientArgumentsException(option.value());
-        if (values.size() > 1) throw new TooManyArgumentsException(option.value());
-        String value = values.get(0);
+        if (values.size() < expectedSize) throw new InsufficientArgumentsException(option.value());
+        if (values.size() > expectedSize) throw new TooManyArgumentsException(option.value());
+        return Optional.of(values);
+    }
+
+    private T parseValue(String value) {
         return valueParser.apply(value);
     }
 
