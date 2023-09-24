@@ -42,7 +42,6 @@ class ArgsTest {
     }
 
 
-    // TODO:- String -d /usr/logs
     @Test
     void should_get_string_as_option_value() {
         StringOption option = Args.parse(StringOption.class, "-d", "/usr/logs");
