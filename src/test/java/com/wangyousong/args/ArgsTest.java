@@ -26,7 +26,7 @@ class ArgsTest {
     }
 
 
-    static record BooleanOption(@Option("l") boolean logging) {
+    record BooleanOption(@Option("l") boolean logging) {
 
     }
 
@@ -37,12 +37,22 @@ class ArgsTest {
         assertEquals(8080, option.port());
     }
 
-    static record IntOption(@Option("p") int port) {
+    record IntOption(@Option("p") int port) {
 
     }
 
 
     // TODO:- String -d /usr/logs
+    @Test
+    void should_get_string_as_option_value() {
+        StringOption option = Args.parse(StringOption.class, "-d", "/usr/logs");
+
+        assertEquals("/usr/logs", option.directory());
+    }
+
+    record StringOption(@Option("d") String directory) {
+    }
+
     // TODO:multi options: -l -p 8080 -d /usr/logs
     // sad path:
     // TODO: -bool -l t / -l t f
@@ -71,10 +81,10 @@ class ArgsTest {
         assertArrayEquals(new int[]{1, 2, -3, 5}, options.decimals());
     }
 
-    static record Options(@Option("l") boolean logging, @Option("p") int port, @Option("d") String directory) {
+    record Options(@Option("l") boolean logging, @Option("p") int port, @Option("d") String directory) {
     }
 
-    static record ListOptions(@Option("g") String[] group, @Option("d") int[] decimals) {
+    record ListOptions(@Option("g") String[] group, @Option("d") int[] decimals) {
 
     }
 }
