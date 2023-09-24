@@ -90,14 +90,21 @@ class OptionParsersTest {
 
     @Nested
     class ListOptionParser {
+        // TODO: -g "this" "is" {"this", "is"}
 
         @Test
         void should_parse_list_value() {
             assertArrayEquals(new String[]{"this", "is"}, OptionParsers.list(String[]::new, String::valueOf).parse(List.of("-g", "this", "is"), option("g")));
         }
 
-
         // TODO: default value []
+
+        @Test
+        void should_use_empty_array_as_default_value() {
+            String[] value = OptionParsers.list(String[]::new, String::valueOf).parse(List.of("-g"), option("g"));
+            assertEquals(0, value.length);
+        }
+
         // TODO: -d a throw exception
     }
 
