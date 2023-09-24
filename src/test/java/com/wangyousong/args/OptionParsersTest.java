@@ -1,5 +1,6 @@
 package com.wangyousong.args;
 
+import com.wangyousong.args.exception.IllegalValueException;
 import com.wangyousong.args.exception.InsufficientArgumentsException;
 import com.wangyousong.args.exception.TooManyArgumentsException;
 import org.junit.jupiter.api.Nested;
@@ -90,14 +91,11 @@ class OptionParsersTest {
 
     @Nested
     class ListOptionParser {
-        // TODO: -g "this" "is" {"this", "is"}
 
         @Test
         void should_parse_list_value() {
             assertArrayEquals(new String[]{"this", "is"}, OptionParsers.list(String[]::new, String::valueOf).parse(List.of("-g", "this", "is"), option("g")));
         }
-
-        // TODO: default value []
 
         @Test
         void should_use_empty_array_as_default_value() {
@@ -106,6 +104,17 @@ class OptionParsersTest {
         }
 
         // TODO: -d a throw exception
+
+        @Test
+        void should_throw_exception_if_value_parser_cant_parse_value() {
+            Function<String, String> parser = it -> {
+                throw new RuntimeException();
+            };
+            IllegalValueException e = assertThrows(IllegalValueException.class, () ->
+                    OptionParsers.list(String[]::new, parser).parse(List.of("-g", "this", "is"), option("g")));
+            assertEquals("g", e.getOption());
+            assertEquals("this", e.getValue());
+        }
     }
 
     static Option option(String value) {
