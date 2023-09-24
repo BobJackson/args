@@ -24,7 +24,7 @@ class BooleanOptionParserTest {
         assertFalse(new BooleanOptionParser().parse(List.of(), option("l")));
     }
 
-    private Option option(String value) {
+    static Option option(String value) {
         return new Option() {
             @Override
             public Class<? extends Annotation> annotationType() {
