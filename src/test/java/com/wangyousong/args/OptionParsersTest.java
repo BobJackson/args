@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mockito;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -56,7 +55,7 @@ class OptionParsersTest {
         // happy path
         @Test
         void should_parse_value_if_flag_present() {
-            Function<String,Object> parser = mock(Function.class);
+            Function<String, Object> parser = mock(Function.class);
 
             OptionParsers.unary(any(), parser).parse(List.of("-p", "8080"), option("p"));
 
@@ -87,6 +86,19 @@ class OptionParsersTest {
         void should_set_boolean_option_to_true_if_flag_present() {
             assertTrue(OptionParsers.bool().parse(List.of("-l"), option("l")));
         }
+    }
+
+    @Nested
+    class ListOptionParser {
+
+        @Test
+        void should_parse_list_value() {
+            assertArrayEquals(new String[]{"this", "is"}, OptionParsers.list(String[]::new, String::valueOf).parse(List.of("-g", "this", "is"), option("g")));
+        }
+
+
+        // TODO: default value []
+        // TODO: -d a throw exception
     }
 
     static Option option(String value) {
