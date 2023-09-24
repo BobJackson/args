@@ -32,7 +32,6 @@ class SingleValueOptionParser<T> implements OptionParser<T> {
                 .filter(it -> arguments.get(it).startsWith("-"))
                 .findFirst()
                 .orElse(arguments.size());
-
         return arguments.subList(index + 1, followingFlag);
     }
 
