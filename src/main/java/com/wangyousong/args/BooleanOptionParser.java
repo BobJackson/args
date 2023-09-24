@@ -2,9 +2,9 @@ package com.wangyousong.args;
 
 import java.util.List;
 
-class BooleanOptionParser implements OptionParser {
+class BooleanOptionParser implements OptionParser<Boolean> {
     @Override
-    public Object parse(List<String> arguments, Option option) {
+    public Boolean parse(List<String> arguments, Option option) {
         return arguments.contains("-" + option.value());
     }
 }
