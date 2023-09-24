@@ -1,6 +1,7 @@
 package com.wangyousong.args;
 
 import com.wangyousong.args.exception.IllegalOptionException;
+import com.wangyousong.args.exception.UnsupportedOptionTypeException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
@@ -26,6 +27,9 @@ public class Args {
 
     private static Object parseOption(List<String> arguments, Parameter parameter) {
         if (!parameter.isAnnotationPresent(Option.class)) throw new IllegalOptionException(parameter.getName());
+        Option option = parameter.getAnnotation(Option.class);
+        if (!PARSERS.containsKey(parameter.getType()))
+            throw new UnsupportedOptionTypeException(option.value(), parameter.getType());
         return PARSERS.get(parameter.getType()).parse(arguments, parameter.getAnnotation(Option.class));
     }
 

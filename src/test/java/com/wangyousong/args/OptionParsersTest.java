@@ -98,12 +98,15 @@ class OptionParsersTest {
         }
 
         @Test
+        void should_not_treat_negative_int_as_flag() {
+            assertArrayEquals(new Integer[]{-1, -2}, OptionParsers.list(Integer[]::new, Integer::parseInt).parse(List.of("-g", "-1", "-2"), option("g")));
+        }
+
+        @Test
         void should_use_empty_array_as_default_value() {
             String[] value = OptionParsers.list(String[]::new, String::valueOf).parse(List.of("-g"), option("g"));
             assertEquals(0, value.length);
         }
-
-        // TODO: -d a throw exception
 
         @Test
         void should_throw_exception_if_value_parser_cant_parse_value() {

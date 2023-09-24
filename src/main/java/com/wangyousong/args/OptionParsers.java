@@ -41,19 +41,19 @@ class OptionParsers {
         return Optional.of(values);
     }
 
+    private static List<String> values(List<String> arguments, int index) {
+        return arguments.subList(index + 1, IntStream.range(index + 1, arguments.size())
+                .filter(it -> arguments.get(it).matches("^-[a-zA-Z-]+$"))
+                .findFirst()
+                .orElse(arguments.size()));
+    }
+
     private static <T> T parseValue(Option option, String value, Function<String, T> valueParser) {
         try {
             return valueParser.apply(value);
         } catch (Exception e) {
             throw new IllegalValueException(option.value(), value);
         }
-    }
-
-    private static List<String> values(List<String> arguments, int index) {
-        return arguments.subList(index + 1, IntStream.range(index + 1, arguments.size())
-                .filter(it -> arguments.get(it).startsWith("-"))
-                .findFirst()
-                .orElse(arguments.size()));
     }
 
 }
