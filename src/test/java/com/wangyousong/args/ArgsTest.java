@@ -1,5 +1,6 @@
 package com.wangyousong.args;
 
+import com.wangyousong.args.exception.IllegalOptionException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

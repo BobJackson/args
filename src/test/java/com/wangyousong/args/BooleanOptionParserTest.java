@@ -1,5 +1,6 @@
 package com.wangyousong.args;
 
+import com.wangyousong.args.exception.TooManyArgumentsException;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;

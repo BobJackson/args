@@ -1,4 +1,4 @@
-package com.wangyousong.args;
+package com.wangyousong.args.exception;
 
 public class InsufficientArgumentsException extends RuntimeException {
     private final String option;

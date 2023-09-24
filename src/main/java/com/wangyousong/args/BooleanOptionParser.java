@@ -1,5 +1,7 @@
 package com.wangyousong.args;
 
+import com.wangyousong.args.exception.TooManyArgumentsException;
+
 import java.util.List;
 
 class BooleanOptionParser implements OptionParser<Boolean> {

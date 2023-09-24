@@ -1,4 +1,4 @@
-package com.wangyousong.args;
+package com.wangyousong.args.exception;
 
 public class IllegalOptionException extends RuntimeException{
     private final String parameter;
