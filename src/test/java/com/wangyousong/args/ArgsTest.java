@@ -19,6 +19,17 @@ class ArgsTest {
     }
 
     @Test
+    void should_throw_illegal_option_exception_if_annotation_not_present() {
+        IllegalOptionException e = assertThrows(IllegalOptionException.class,
+                () -> Args.parse(OptionsWithoutAnnotation.class, "-l", "-p", "8080", "-d", "/usr/logs"));
+
+        assertEquals("port", e.getParameter());
+    }
+
+    record OptionsWithoutAnnotation(@Option("l") boolean logging, int port, @Option("d") String directory) {
+    }
+
+    @Test
     @Disabled
     void should_example_2() {
         ListOptions options = Args.parse(ListOptions.class, "-g", "this", "is", "a", "list", "-d", "1", "2", "-3", "5");
