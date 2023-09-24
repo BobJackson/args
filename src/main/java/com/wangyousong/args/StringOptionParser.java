@@ -1,10 +1,9 @@
 package com.wangyousong.args;
 
-import java.util.List;
+class StringOptionParser extends IntOptionParser implements OptionParser {
 
-class StringOptionParser implements OptionParser {
     @Override
-    public Object parse(List<String> arguments, Option option) {
-        return arguments.get(arguments.indexOf("-" + option.value()) + 1);
+    protected Object parseValue(String value) {
+        return String.valueOf(value);
     }
 }
