@@ -21,51 +21,13 @@ public class Args {
     }
 
     private static Object parseOption(List<String> arguments, Parameter parameter) {
-        return getOptionParser(parameter.getType()).parse(arguments, parameter.getAnnotation(Option.class));
+        return PARSERS.get(parameter.getType()).parse(arguments, parameter.getAnnotation(Option.class));
     }
 
-    private static Map<Class<?>, OptionParser> PARSERS = Map.of(
+    private static final Map<Class<?>, OptionParser> PARSERS = Map.of(
             boolean.class, new BooleanOptionParser(),
             int.class, new IntOptionParser(),
             String.class, new StringOptionParser()
     );
 
-    private static OptionParser getOptionParser(Class<?> type) {
-        OptionParser parser = null;
-        if (type == boolean.class) {
-            parser = new BooleanOptionParser();
-        }
-        if (type == int.class) {
-            parser = new IntOptionParser();
-        }
-        if (type == String.class) {
-            parser = new StringOptionParser();
-        }
-        return parser;
-    }
-
-    interface OptionParser {
-        Object parse(List<String> arguments, Option option);
-    }
-
-    static class StringOptionParser implements OptionParser {
-        @Override
-        public Object parse(List<String> arguments, Option option) {
-            return arguments.get(arguments.indexOf("-" + option.value()) + 1);
-        }
-    }
-
-    static class IntOptionParser implements OptionParser {
-        @Override
-        public Object parse(List<String> arguments, Option option) {
-            return Integer.parseInt(arguments.get(arguments.indexOf("-" + option.value()) + 1));
-        }
-    }
-
-    static class BooleanOptionParser implements OptionParser {
-        @Override
-        public Object parse(List<String> arguments, Option option) {
-            return arguments.contains("-" + option.value());
-        }
-    }
 }
