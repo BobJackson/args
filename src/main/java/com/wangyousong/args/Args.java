@@ -12,8 +12,17 @@ public class Args {
         Option option = parameter.getAnnotation(Option.class);
         List<String> arguments = Arrays.asList(args);
 
+        Object value = null;
+        if (parameter.getType() == boolean.class) {
+            value = arguments.contains("-" + option.value());
+        }
+        if (parameter.getType() == int.class) {
+            int index = arguments.indexOf("-" + option.value());
+            value = Integer.parseInt(arguments.get(index + 1));
+        }
+
         try {
-            return (T) constructor.newInstance(arguments.contains("-" + option.value()));
+            return (T) constructor.newInstance(value);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
