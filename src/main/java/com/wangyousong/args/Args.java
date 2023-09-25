@@ -33,7 +33,7 @@ public class Args {
         return PARSERS.get(parameter.getType()).parse(arguments, parameter.getAnnotation(Option.class));
     }
 
-    private static final Map<Class<?>, OptionParser> PARSERS = Map.of(
+    private static final Map<Class<?>, OptionParser<?>> PARSERS = Map.of(
             boolean.class, OptionParsers.bool(),
             int.class, OptionParsers.unary(0, Integer::parseInt),
             String.class, OptionParsers.unary("", String::valueOf),
